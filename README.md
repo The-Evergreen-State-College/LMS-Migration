@@ -13,7 +13,7 @@ All of the data content is stored within a web scrape folder, with a subfolder f
 ## Parameter
 
 Can pass a single product as a pramater to update.
-
+e.g. `LMS-Extraction-Tool.cmd 1`
 
 ## How to manage cookies
 
