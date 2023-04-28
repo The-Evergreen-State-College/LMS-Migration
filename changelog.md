@@ -19,8 +19,12 @@
 
 ---
 
+## Version 1.0.1 Build: 2023-04-28
+### Changed
+- Main program name to LMS-Web-Extraction-Tool.cmd
+
+---
+
 ## Version 1.0.0 Build: 2023-04-28
 ### Added
 - initial release
-
----

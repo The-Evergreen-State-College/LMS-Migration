@@ -1,4 +1,4 @@
-:::: Merci Web Application Extraction Tool ::::::::::::::::::::::::::::::::::::
+:::: LMS Web Application Extraction Tool ::::::::::::::::::::::::::::::::::::
 
 ::#############################################################################
 ::							#DESCRIPTION#
@@ -34,11 +34,11 @@
 :::: Command shell ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 @Echo Off
 @SETLOCAL enableextensions
-SET $PROGRAM_NAME=Merci-Web-Application-Extraction-Tool
-SET $Version=0.0.0
-SET $BUILD=2023-04-28 1000
+SET $PROGRAM_NAME=LMS-Web-Extraction-Tool
+SET $Version=1.0.1
+SET $BUILD=2023-04-28 1430
 Title %$PROGRAM_NAME%
-Prompt MWAET$G
+Prompt LWET$G
 color 8F
 mode con:cols=80 lines=56
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -74,7 +74,7 @@ SET $MERCI_STATUS_CHOICES_FILE=.\Config\Merci_Status_Choices.txt
 
 :: Logging
 SET $LOG_DIRECTORY_PATH=logs
-SET $LOG_FILE=Merci-Web-Application-Extraction-Tool.log
+SET $LOG_FILE=LMS-Web-Application-Extraction-Tool.log
 
 
 

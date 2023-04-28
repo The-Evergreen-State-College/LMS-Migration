@@ -1,9 +1,14 @@
 # Directories
-data\merci-inventory-web-page-scrape
+data/merci-inventory-web-page-scrape/
 
+## Sensitive Files
+cookies.txt
 
-#Files
-cache\*
+#All Files
+cache/*
+logs/*
+
+# File
 *.backup
 *Test.cmd
 *Dev*
