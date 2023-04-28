@@ -1,0 +1,10 @@
+# Directories
+data\merci-inventory-web-page-scrape
+
+
+#Files
+cache\*
+*.backup
+*Test.cmd
+*Dev*
+*.old
