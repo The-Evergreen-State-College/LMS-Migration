@@ -1,0 +1,1 @@
+*Name	*Barcode	*Facility	Log in Name	Password	Phone	Alt. Phone	E-mail	Notes	Master Access	Tool Access	Check In / Out Access	Transfer Access	Reservation Access	Member Access	Employee Access	Tool Status Access	Support Access	Maintenance Access	Status	
