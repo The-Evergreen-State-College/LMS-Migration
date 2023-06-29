@@ -1,5 +1,7 @@
 # Directories
 data/merci-inventory-web-page-scrape/
+cache/
+
 
 ## Sensitive Files
 cookies.txt
@@ -9,6 +11,7 @@ cache/*
 logs/*
 
 # File
+var_*
 *.backup
 *Test.cmd
 *Dev*
