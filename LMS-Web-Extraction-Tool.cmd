@@ -35,8 +35,8 @@
 @Echo Off
 @SETLOCAL enableextensions
 SET $PROGRAM_NAME=LMS-Web-Extraction-Tool
-SET $Version=1.1.0
-SET $BUILD=2023-06-29 1315
+SET $Version=1.2.0
+SET $BUILD=2023-09-28 0800
 Title %$PROGRAM_NAME%
 Prompt LWET$G
 color 8F
@@ -50,7 +50,7 @@ mode con:cols=80 lines=56
 
 :: Product ID
 SET $PRODUCTID=0
-SET $PRODUCTID_LAST=15689
+SET $PRODUCTID_LAST=15874
 
 
 :: Directories
@@ -60,7 +60,7 @@ SET $DIRECTORY_PROJECT=D:\Projects\LMS-Migration
 SET $DIRECTORY_WEB_PAGES=.\data\merci-inventory-web-page-scrape
 
 :: cURL Configuration
-SET $CURL_COOKIE_DIRECTORY=E:\Workspace\cURL
+SET $CURL_COOKIE_DIRECTORY=D:\Projects\LMS-Migration\config
 SET $CURL_COOKIE_FILE=cookies.txt
 
 
@@ -175,26 +175,32 @@ FOR /F "tokens=5 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCT
 FOR /F "tokens=5 delims==" %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-title.txt) DO echo value=%%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-title.txt
 FOR /F "tokens=5 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_quantity.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_quantity.txt
 FOR /F "tokens=5 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-commerce_price.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-commerce_price.txt
-FOR /F "tokens=7 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_vendor.txt
+FOR /F "tokens=6 delims==" %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_vendor.txt
 :: has to account for vendors with multiple words
 :: check against last token would return "size="
+SET /P $STRING_VENDOR= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_vendor.txt
+echo value=%$STRING_VENDOR%> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_vendor.txt
 
+:: No longer needed; using "=" as delimeter
+::FOR /F "tokens=7 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-1.txt
+::FOR /F "tokens=8 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt
+::(FIND /I "size=" "%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt" 2> nul) && (GoTo skipvendorKey)
+::FOR /F "tokens=9 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-3.txt
+::SET $VENDOR-WORD-1=
+::FIND /I "size=" %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-1.txt 2>nul || SET /P $VENDOR-WORD-1= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-1.txt
+::SET $VENDOR-WORD-2=
+::FIND /I "size=" %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt 2>nul || SET /P $VENDOR-WORD-2= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt
+::SET $VENDOR-WORD-3=
+::FIND /I "size=" %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-3.txt 2>nul || SET /P $VENDOR-WORD-3= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-3.txt
 
-FOR /F "tokens=7 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-1.txt
-FOR /F "tokens=8 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt
-(FIND /I "size=" "%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt" 2> nul) && (GoTo skipvendorKey)
-FOR /F "tokens=9 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_vendor.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-3.txt
-SET $VENDOR-WORD-1=
-FIND /I "size=" %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-1.txt 2>nul || SET /P $VENDOR-WORD-1= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-1.txt
-SET $VENDOR-WORD-2=
-FIND /I "size=" %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt 2>nul || SET /P $VENDOR-WORD-2= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-2.txt
-SET $VENDOR-WORD-3=
-FIND /I "size=" %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-3.txt 2>nul || SET /P $VENDOR-WORD-3= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-vendor-word-3.txt
-IF DEFINED $VENDOR-WORD-2 SET $VENDOR-KEY=%$VENDOR-WORD-1% %$VENDOR-WORD-2%
-IF DEFINED $VENDOR-WORD-3 SET $VENDOR-KEY=%$VENDOR-WORD-1% %$VENDOR-WORD-2% %VENDOR-WORD-3%
-echo %$VENDOR-KEY%> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_vendor.txt
+::IF DEFINED $VENDOR-WORD-2 SET "$VENDOR-KEY=%$VENDOR-WORD-1% %$VENDOR-WORD-2%"
+::IF DEFINED $VENDOR-WORD-3 SET "$VENDOR-KEY=%$VENDOR-WORD-1% %$VENDOR-WORD-2% %$VENDOR-WORD-3%"
+::echo %$VENDOR-KEY%> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_vendor.txt
 :skipvendorKey
-FOR /F "tokens=7 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_serial.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_serial.txt
+FOR /F "tokens=6 delims==" %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_serial.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_serial.txt
+SET /P $STRING_SERIAL= < %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_serial.txt
+echo value=%$STRING_SERIAL%> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_serial.txt
+
 FOR /F "tokens=7 delims= " %%P IN (%$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-element-field_purchase_date.txt) DO echo %%P> %$DIRECTORY_WEB_PAGES%\%$PRODUCTID%\%$PRODUCTID%-value_pair-field_purchase_date.txt
 
 	
@@ -297,6 +303,9 @@ REM Check against product ID since that is the primary key
 SET $RECORD_CHECK=%ERRORLEVEL%
 IF %$RECORD_CHECK% EQU 0 GoTo skipRecord
 echo %$PRODUCTID%;%$SKU%;%$TITLE%;%$QUANTITY%;%$PURCHASE_PRICE%;%$VENDOR%;%$SERIAL%;%$PURCHASE_DATE%;%$MERCI_STATUS% >> "%$DIRECTORY_PROJECT%\Data\Merci-Inventory-Extraction.txt"
+FIND "%$PRODUCTID%" "%$DIRECTORY_PROJECT%\Data\Merci-Inventory-Extraction.txt" 2>nul
+SET $RECORD_WRITE=%ERRORLEVEL%
+IF %$RECORD_WRITE% EQU 1 (echo %TIME%	[ERROR]	Writing record for {%$PRODUCTID%} failed! >> .\%$LOG_DIRECTORY_PATH%\%$LOG_FILE%)
 echo %TIME%	[DEBUG]	RECORD_WRITE:	%ERRORLEVEL% >> .\%$LOG_DIRECTORY_PATH%\%$LOG_FILE%
 :skipRecord
 IF DEFINED $PARAMETER1 GoTo stop

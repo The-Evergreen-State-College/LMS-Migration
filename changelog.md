@@ -19,15 +19,23 @@
 
 ---
 
+## Version 1.2.0 Build: 2023-09-28
+### Changed
+- handling of element parsing to use "=" instead of (space) " ". 
+- cURL cookie to .\Config
+
+###Added
+- error catching for missing record entry
+
+---
+
+
 ## Version 1.1.0 Build: 2023-06-29
 ### Changed
 - handling of vendor name to capture multi word
 
 ###Added
 - logging for record write
-
----
-
 
 ## Version 1.0.1 Build: 2023-04-28
 ### Changed
